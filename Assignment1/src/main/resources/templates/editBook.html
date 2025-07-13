@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Books Store Application</title>
+    <link rel="stylesheet" th:href="@{/main.css}" />
+</head>
+<body>
+<h1>Books Management</h1>
+<h2>
+    <a th:href="@{/new}">Add New Book</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a th:href="@{/}">List All Books</a>
+    &nbsp;&nbsp;&nbsp;
+    <a th:href="@{/new_author}">Add New Author</a>
+    &nbsp;&nbsp;&nbsp;
+    <a th:href="@{/authors}">List All Authors</a>
+</h2>
+
+<div class="center">
+
+    <!-- Main edit book form -->
+    <form th:action="@{/save}" method="post" th:object="${book}">
+        <input type="hidden" name="_method" value="put" />
+        <input type="hidden" th:field="*{id}" />
+        <table class="center">
+            <caption><h2>Edit Book</h2></caption>
+            <tr>
+                <th>Title:</th>
+                <td><input type="text" th:field="*{book_name}" size="45" /></td>
+            </tr>
+
+            <tr>
+                <th>ISBN:</th>
+                <td><input type="text" th:field="*{isbn}" size="45" /></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <button type="submit">Save</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+
+
+    <table class="center">
+        <tbody>
+        <tr th:each="author, iterStat : ${authors}">
+            <th th:if="${iterStat.index == 0}" style="font-weight: bold; vertical-align: top;">Authors:</th>
+            <th th:unless="${iterStat.index == 0}"></th>
+            <td>
+                <span th:text="${author.authorName + ' ' + author.authorSurname}"></span>
+                <form th:action="@{/removeAuthor/{bookId}(bookId=${book.id})}" method="post" style="display:inline;">
+                    <input type="hidden" name="_method" value="delete" />
+                    <input type="hidden" name="id" th:value="${author.id}" />
+                    <button type="submit">Remove</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+
+
+
+    <!-- Add author form -->
+    <form th:action="@{/addAuthor/{id}(id=${book.id})}" method="post" style="margin-top: 20px;">
+        <input type="hidden" name="_method" value="put" />
+        <table class="center" style="margin-top: 20px;">
+            <tr>
+                <th>Add Authors:</th>
+                <td>
+                    <select name="authorMissing" style="width: 290px;">
+                        <option th:each="authorMissing : ${missingAuthors}"
+                                th:value="${authorMissing.id}"
+                                th:text="${authorMissing.authorName + ' ' + authorMissing.authorSurname}">
+                        </option>
+                    </select>
+                </td>
+                <td>
+                    <button type="submit">Add</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+
+</body>
+</html>

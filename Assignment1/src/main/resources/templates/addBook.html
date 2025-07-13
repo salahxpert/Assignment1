@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Books Store Application</title>
+    <link rel="stylesheet" th:href="@{/main.css}" />
+</head>
+<body>
+
+<h1>Books Management</h1>
+<h2>
+    <a th:href="@{/new}">Add New Book</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a th:href="@{/}">List All Books</a>
+    &nbsp;&nbsp;&nbsp;
+    <a th:href="@{/new_author}">Add New Author</a>
+    &nbsp;&nbsp;&nbsp;
+    <a th:href="@{/authors}">List All Authors</a>
+</h2>
+
+<div class="center">
+    <form th:action="@{/books}"
+          method="post"
+          th:object="${book}">
+        <table class="center">
+            <caption>
+                <h2>Add New Book</h2>
+            </caption>
+
+            <tr>
+                <th>Title:</th>
+                <td>
+                    <input type="text" th:field="*{book_name}" size="45"/>
+                </td>
+            </tr>
+
+            <tr>
+                <th>ISBN:</th>
+                <td>
+                    <input type="text" th:field="*{isbn}" size="45"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <button type="submit">Save</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>
